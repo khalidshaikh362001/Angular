@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { DataService } from './data.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +9,7 @@ import { DataService } from './data.service';
     </div>
   `
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   data: any;
 
   constructor(private dataService: DataService) {}
