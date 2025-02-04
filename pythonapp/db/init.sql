@@ -1,8 +1,9 @@
-CREATE DATABASE mydb;
-CREATE USER 'myuser'@'%' IDENTIFIED BY 'mypassword';
-GRANT ALL PRIVILEGES ON mydb.* TO 'myuser'@'%';
-FLUSH PRIVILEGES;
-
+CREATE DATABASE IF NOT EXISTS mydb;
 USE mydb;
-CREATE TABLE messages (id INT AUTO_INCREMENT PRIMARY KEY, text VARCHAR(255));
-INSERT INTO messages (text) VALUES ('Hello from MySQL!');
+
+CREATE TABLE IF NOT EXISTS mytable (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL
+);
+
+INSERT INTO mytable (name) VALUES ('Item 1'), ('Item 2'), ('Item 3');

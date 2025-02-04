@@ -1,15 +1,35 @@
 import falcon
-from db import get_db_connection
+import json
+import mysql.connector
+from mysql.connector import Error
 
-class HelloResource:
+class DataResource:
     def on_get(self, req, resp):
-        db = get_db_connection()
-        cursor = db.cursor()
-        cursor.execute("SELECT text FROM messages LIMIT 1;")
-        message = cursor.fetchone()[0]
-        db.close()
-
-        resp.media = {"message": message}
+        try:
+            connection = mysql.connector.connect(
+                host='db',
+                database='mydb',
+                user='root',
+                password='password'
+            )
+            
+            cursor = connection.cursor()
+            cursor.execute("SELECT * FROM mytable")
+            result = cursor.fetchall()
+            
+            resp.text = json.dumps({
+                "status": "success",
+                "data": result
+            })
+            resp.status = falcon.HTTP_200
+            
+        except Error as e:
+            resp.text = json.dumps({"status": "error", "message": str(e)})
+            resp.status = falcon.HTTP_500
+        finally:
+            if connection.is_connected():
+                cursor.close()
+                connection.close()
 
 app = falcon.App()
-app.add_route('/api/hello', HelloResource())
+app.add_route('/api/data', DataResource())

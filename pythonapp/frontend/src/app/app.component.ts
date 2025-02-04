@@ -1,17 +1,23 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { DataService } from './data.service';
 
 @Component({
   selector: 'app-root',
-  template: `<h1>{{ message }}</h1>`,
+  template: `
+    <h1>Data from Backend:</h1>
+    <div *ngIf="data">
+      <pre>{{ data | json }}</pre>
+    </div>
+  `
 })
 export class AppComponent implements OnInit {
-  message = 'Loading...';
+  data: any;
 
-  constructor(private http: HttpClient) {}
+  constructor(private dataService: DataService) {}
 
   ngOnInit() {
-    this.http.get<{ message: string }>('http://localhost/api/hello')
-      .subscribe(response => this.message = response.message);
+    this.dataService.getData().subscribe(response => {
+      this.data = response;
+    });
   }
 }
