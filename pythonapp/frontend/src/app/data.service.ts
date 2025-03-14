@@ -5,11 +5,23 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class DataService {
-  private apiUrl = 'http://localhost:8000/api/data';
+  private apiUrl = 'http://localhost:8000/api/items';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  getData() {
-    return this.http.get<any>(this.apiUrl);
+  getItems() {
+    return this.http.get<any[]>(this.apiUrl);
+  }
+
+  createItem(item: any) {
+    return this.http.post(this.apiUrl, item);
+  }
+
+  updateItem(id: number, item: any) {
+    return this.http.put(`${this.apiUrl}/${id}`, item);
+  }
+
+  deleteItem(id: number) {
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
 }
