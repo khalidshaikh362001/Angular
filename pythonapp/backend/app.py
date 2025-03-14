@@ -74,11 +74,13 @@ class ItemsResource:
 
     def get_connection(self):
         return mysql.connector.connect(
-            host='db',
-            database='mydb',
-            user='root',
-            password='password'
-        )
+        host='db',
+        database='mydb',
+        user='root',
+        password='password',
+        connect_timeout=5,
+        retries=3
+    )
 
     def handle_error(self, resp, message):
         resp.text = json.dumps({"error": message})
