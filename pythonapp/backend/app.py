@@ -85,9 +85,9 @@ class ItemsResource:
         resp.status = falcon.HTTP_500
 
 app = falcon.App(middleware=falcon.CORSMiddleware(
-    allow_origins='*',
-    allow_methods=['GET', 'POST', 'PUT', 'DELETE'],
-    allow_headers=['Content-Type']
+    allow_origins_list=['*'],  # Changed parameter name
+    allow_all_headers=True,    # Simplified headers configuration
+    allow_all_methods=True     # Simplified methods configuration
 ))
 
 app.add_route('/api/items', ItemsResource())
